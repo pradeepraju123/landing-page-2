@@ -879,19 +879,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         })
         .then((data) => {
         console.log('API Response:', data);
-        
-        // Show confirmation dialog
-        alertify.confirm('Confirmation', 'Details are correct, do you want to continue with existing details?', 
-            function(){
-                // If 'Ok' is clicked, redirect to another page
-                alertify.success('Ok');
-                window.location.replace("thank-you.html");
-            },
-            function(){
-                // If 'Cancel' is clicked, show an error message or perform other actions if needed
-                alertify.error('Cancel');
-            }
-        );
+        window.location.replace("thank-you.html");
     })
     .catch((error) => {
         console.error('Error submitting form:', error);
@@ -942,18 +930,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         .then((data) => {
         console.log('API Response:', data);
         
-        // Show confirmation dialog
-        alertify.confirm('Confirmation', 'Details are correct, do you want to continue with existing details?', 
-            function(){
-                // If 'Ok' is clicked, redirect to another page
-                alertify.success('Ok');
-                window.location.replace("thank-you.html");
-            },
-            function(){
-                // If 'Cancel' is clicked, show an error message or perform other actions if needed
-                alertify.error('Cancel');
-            }
-        );
+        window.location.replace("thank-you.html");
     })
     .catch((error) => {
         console.error('Error submitting form:', error);
