@@ -28,9 +28,28 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link rel="stylesheet" href="build/css/intlTelInput.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
       <link rel="stylesheet" href="assets/css/all-fontawesome.min.css">
     <link rel="stylesheet" href="assets/css/flaticon.css">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NHFM2GS5');</script>
+<!-- End Google Tag Manager -->
+
+
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHFM2GS5"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script> -->
     
@@ -237,19 +256,21 @@
 
                                             </div>
                                         </div>
+                                        <div class="col-md-10">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="additional_details"
+                                                    placeholder="Your Email" required>
+                                                <label for="additional_details">Additional Details</label>
+
+                                            </div>
+                                        </div>
                                         <div class="col-lg-4 col-sm-12">
                                              <button type="button"  id="myButton"  style="display:none;" class="btn btn-primary">Enroll
                                     Now 
                                 </button>
-                                            <button class="btn btn-primary" id="buttonTwo" onclick="alertfunc()" name="submit" type="submit">Enroll
+                                            <button class="btn btn-primary" id="buttonTwo" name="submit" type="submit">Enroll
                                                 Now</button>
                                         </div>
-                                        <script>
-                                function alertfunc() {
-                                    
-                                     confirm("Details are correct, do you want to continue with existing details?");
-                                }
-                            </script>
                                     </div>
                                 </form>
                             </div>
@@ -746,6 +767,12 @@
                                         in Control & Safety Systems Engineer (DCSSE) -4 DCS</option>
                                 </select>
                             </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="">
+                                    <input type="text" class="form-control" name="additional_details_new" placeholder="Additional Details" required>
+
+                                </div>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="submit">Submit & Download</button>
@@ -818,6 +845,7 @@
       const phone = document.querySelector('[name="phone"]').value;
       const courses = document.querySelector('[name="courses"]').value;
       const source = document.querySelector('[name="source"]').value;
+      const additional_details = document.querySelector('[name="additional_details"]').value;
   
       // Combine country code and phone number
       const fullPhoneNumber = `${country_code}${phone}`;
@@ -828,11 +856,12 @@
         email,
         phone: fullPhoneNumber,
         courses,
-        source
+        source,
+        additional_details
       };
   
       // Replace 'https://your-api-endpoint.com/save-data' with the actual API endpoint
-      const apiEndpoint = 'https://api.inferconautomation.online/api/v1/contact';
+      const apiEndpoint = 'https://api.inferconautomation.com/api/v1/contact';
   
       // Send data to the API using Fetch
       fetch(apiEndpoint, {
@@ -849,14 +878,25 @@
           return response.json();
         })
         .then((data) => {
-          console.log('API Response:', data);
-          // Handle the API response as needed
-          alert('Form submitted successfully!');
-        })
-        .catch((error) => {
-          console.error('Error submitting form:', error);
-          alert('An error occurred while submitting the form. Please try again.');
-        });
+        console.log('API Response:', data);
+        
+        // Show confirmation dialog
+        alertify.confirm('Confirmation', 'Details are correct, do you want to continue with existing details?', 
+            function(){
+                // If 'Ok' is clicked, redirect to another page
+                alertify.success('Ok');
+                window.location.replace("thank-you.html");
+            },
+            function(){
+                // If 'Cancel' is clicked, show an error message or perform other actions if needed
+                alertify.error('Cancel');
+            }
+        );
+    })
+    .catch((error) => {
+        console.error('Error submitting form:', error);
+        alert('An error occurred while submitting the form. Please try again.');
+    });
     });
     document.getElementById('contact-form-new').addEventListener('submit', function (event) {
       event.preventDefault(); // Prevent the default form submission
@@ -868,7 +908,7 @@
       const phone = document.querySelector('[name="phonenew"]').value;
       const courses = document.querySelector('[name="coursesnew"]').value;
       const source = document.querySelector('[name="sourcenew"]').value;
-  
+      const additional_details = document.querySelector('[name="additional_details_new"]').value;
       // Combine country code and phone number
       const fullPhoneNumber = `${country_code}${phone}`;
   
@@ -878,11 +918,12 @@
         email,
         phone: fullPhoneNumber,
         courses,
-        source
+        source,
+        additional_details
       };
   
       // Replace 'https://your-api-endpoint.com/save-data' with the actual API endpoint
-      const apiEndpoint = 'https://api.inferconautomation.online/api/v1/contact';
+      const apiEndpoint = 'https://api.inferconautomation.com/api/v1/contact';
   
       // Send data to the API using Fetch
       fetch(apiEndpoint, {
@@ -899,17 +940,25 @@
           return response.json();
         })
         .then((data) => {
-          console.log('API Response:', data);
-          // Handle the API response as needed
-          alert('Form submitted successfully! Redirecting to Thank You page.');
-          
-          // Redirect to the Thank You page
-          window.location.href = 'thank-you.html';
-        })
-        .catch((error) => {
-          console.error('Error submitting form:', error);
-          alert('An error occurred while submitting the form. Please try again.');
-        });
+        console.log('API Response:', data);
+        
+        // Show confirmation dialog
+        alertify.confirm('Confirmation', 'Details are correct, do you want to continue with existing details?', 
+            function(){
+                // If 'Ok' is clicked, redirect to another page
+                alertify.success('Ok');
+                window.location.replace("thank-you.html");
+            },
+            function(){
+                // If 'Cancel' is clicked, show an error message or perform other actions if needed
+                alertify.error('Cancel');
+            }
+        );
+    })
+    .catch((error) => {
+        console.error('Error submitting form:', error);
+        alert('An error occurred while submitting the form. Please try again.');
+    });
     });
   </script>
   
