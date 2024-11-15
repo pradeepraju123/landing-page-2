@@ -112,13 +112,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="row  d-flex align-items-center">
             <div class="col-6"><a href="mailto:enquiry@inferconautomation.com"><i
                         class="fas fa-paper-plane"></i></i>&nbsp;&nbsp;inferconautomation@gmail.com</a>
-                <a href="tel:+918870007000"><i class="fas fa-phone-alt">
-                    </i>&nbsp;&nbsp;+91 88 7000 7000</a>
+                <a href="tel:+917550177707"><i class="fas fa-phone-alt">
+                    </i>&nbsp;&nbsp;+91 75501 777907</a>
             </div>
             <div class="col-6 d-flex justify-content-center"> <a
                     href="https://www.facebook.com/PLCSCADADCSTrainingInChennai"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/918870007000"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://wa.me/917550177707"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </div>
@@ -188,6 +188,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                 <select class="select2 form-select form control" name="country_code"
                                                     required aria-label="" style="width:100%;">
                                                     <option selected disabled value="">Select Country</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3 mb-3">
+                                            <div class="form-group">
+                                                <select class="select2 form-select form control" name="state" required aria-label="" style="width:100%;">
+                                                    <option selected disabled value="">Select State</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -675,7 +682,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 href="https://www.facebook.com/PLCSCADADCSTrainingInChennai"><i
                                     class="fab fa-facebook-f"></i></a>
                             <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href="https://wa.me/918870007000"><i
+                            <a class="btn btn-outline-light btn-social" href="https://wa.me/917550177707"><i
                                     class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
@@ -713,6 +720,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-12 mt-3 mb-3">
+                                <div class="form-group">
+                                    <select class="select2 form-select form control" name="state" required aria-label="" style="width:100%;">
+                                        <option selected disabled value="">Select State</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            
                             <div class="col-md-12 mt-3 ">
                                 <div class="form-group">
                                     <input type="number" class="form-control" id="password" name="phonenew"
@@ -770,7 +787,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
             </div>
         </div>
-        <a href="https://wa.me/918870007000" id="whatsapp">
+        <a href="https://wa.me/917550177707" id="whatsapp">
             <img src="img/whatsapp.png" style="position: fixed;
            z-index: 99;
             right: 40px;
@@ -824,49 +841,117 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 </html>
 <script>
-    document.getElementById('contact-form').addEventListener('submit', function (event) {
-      event.preventDefault(); // Prevent the default form submission
-  
-      // Get values from the form
-      const fullname = document.querySelector('[name="fullname"]').value;
-      const email = document.querySelector('[name="email"]').value;
-      const country_code = document.querySelector('[name="country_code"]').value;
-      const phone = document.querySelector('[name="phone"]').value;
-      const courses = document.querySelector('[name="courses"]').value;
-      const source = document.querySelector('[name="source"]').value;
-      const additional_details = document.querySelector('[name="additional_details"]').value;
-  
-      // Combine country code and phone number
-      const fullPhoneNumber = `${country_code}${phone}`;
-  
-      // Combine values into a single parameter
-      const formData = {
+   document.getElementById('contact-form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get values from the form
+    const fullname = document.querySelector('[name="fullname"]').value;
+    const email = document.querySelector('[name="email"]').value;
+    const selectedCountryOption = document.querySelector('[name="country_code"]').selectedOptions[0];
+    const phone = document.querySelector('[name="phone"]').value;
+    const courses = document.querySelector('[name="courses"]').value;
+    const source = document.querySelector('[name="source"]').value;
+    const state = document.querySelector('[name="state"]').value;
+    const additional_details = document.querySelector('[name="additional_details"]').value;
+
+    // Retrieve country code and country name directly from data attributes
+    const country_code = selectedCountryOption.getAttribute('data-code');
+    const country = selectedCountryOption.getAttribute('data-name');
+
+    // Combine country code and phone number
+    const fullPhoneNumber = `${country_code}${phone}`;
+
+    // Combine values into a single parameter for the API
+    const formData = {
         fullname,
         email,
         phone: fullPhoneNumber,
-        courses,
+        country_code,    // Pass the country code separately
+        country,    // Pass the country name separately
         source,
+        state,
+        courses,
         additional_details
-      };
-  
-      // Replace 'https://your-api-endpoint.com/save-data' with the actual API endpoint
-      const apiEndpoint = 'https://api.inferconautomation.com/api/v1/contact';
-  
-      // Send data to the API using Fetch
-      fetch(apiEndpoint, {
+    };
+
+    // Replace 'https://your-api-endpoint.com/save-data' with the actual API endpoint
+    const apiEndpoint = 'https://api.inferconautomation.com/api/v1/contact';
+
+    // Send data to the API using Fetch
+    fetch(apiEndpoint, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      })
-        .then((response) => {
-          if (!response.ok) {
+    })
+    .then((response) => {
+        if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
+        }
+        return response.json();
+    })
+    .then((data) => {
+        console.log('API Response:', data);    
+        window.location.replace("thank-you.html");
+    })
+    .catch((error) => {
+        console.error('Error submitting form:', error);
+        alert('An error occurred while submitting the form. Please try again.');
+    });
+});
+
+document.getElementById('contact-form-new').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get values from the form
+    const fullname = document.querySelector('[name="fullnamenew"]').value;
+    const email = document.querySelector('[name="emailnew"]').value;
+    const selectedCountryOption = document.querySelector('[name="country_code_new"]').selectedOptions[0];
+    const phone = document.querySelector('[name="phonenew"]').value;
+    const courses = document.querySelector('[name="coursesnew"]').value;
+    const source = document.querySelector('[name="sourcenew"]').value;
+    const state = document.querySelector('[name="state"]').value;
+    const additional_details = document.querySelector('[name="additional_details_new"]').value;
+
+    // Retrieve country code and country name directly from data attributes
+    const country_code = selectedCountryOption.getAttribute('data-code');
+    const country = selectedCountryOption.getAttribute('data-name');
+
+    // Combine country code and phone number
+    const fullPhoneNumber = `${country_code}${phone}`;
+
+    // Combine values into a single parameter for the API
+    const formData = {
+        fullname,
+        email,
+        phone: fullPhoneNumber,
+        country_code,    // Pass the country code separately
+        country,    // Pass the country name separately
+        courses,
+        state,
+        additional_details,
+        source
+    };
+
+    // Replace 'https://your-api-endpoint.com/save-data' with the actual API endpoint
+    const apiEndpoint = 'https://api.inferconautomation.com/api/v1/contact';
+
+    // Send data to the API using Fetch
+    fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
         console.log('API Response:', data);
         window.location.replace("thank-you.html");
     })
@@ -874,82 +959,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         console.error('Error submitting form:', error);
         alert('An error occurred while submitting the form. Please try again.');
     });
-    });
-    document.getElementById('contact-form-new').addEventListener('submit', function (event) {
-      event.preventDefault(); // Prevent the default form submission
-  
-      // Get values from the form
-      const fullname = document.querySelector('[name="fullnamenew"]').value;
-      const email = document.querySelector('[name="emailnew"]').value;
-      const country_code = document.querySelector('[name="country_code_new"]').value;
-      const phone = document.querySelector('[name="phonenew"]').value;
-      const courses = document.querySelector('[name="coursesnew"]').value;
-      const source = document.querySelector('[name="sourcenew"]').value;
-      const additional_details = document.querySelector('[name="additional_details_new"]').value;
-      // Combine country code and phone number
-      const fullPhoneNumber = `${country_code}${phone}`;
-  
-      // Combine values into a single parameter
-      const formData = {
-        fullname,
-        email,
-        phone: fullPhoneNumber,
-        courses,
-        source,
-        additional_details
-      };
-  
-      // Replace 'https://your-api-endpoint.com/save-data' with the actual API endpoint
-      const apiEndpoint = 'https://api.inferconautomation.com/api/v1/contact';
-  
-      // Send data to the API using Fetch
-      fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-        console.log('API Response:', data);
-        
-        window.location.replace("thank-you.html");
-    })
-    .catch((error) => {
-        console.error('Error submitting form:', error);
-        alert('An error occurred while submitting the form. Please try again.');
-    });
-    });
+});
   </script>
   
 <script src="config.js"></script>
 <script>
-    // Function to populate the country dropdown
-    function populateCountries() {
-        var selectElement = document.querySelector('select[name="country_code"]');
+function populateCountries() {
+    var selectElement = document.querySelector('select[name="country_code"]');
+    
+    // Clear existing options (optional, in case of re-population)
+    selectElement.innerHTML = '';
+
+    // Add options for each country
+    countriesData.forEach(function(country) {
+        var option = document.createElement('option');
+        option.value = `${country.dial_code} ${country.name}`; // Keep both for value
+        option.setAttribute('data-code', country.dial_code);   // Store country code
+        option.setAttribute('data-name', country.name);        // Store country name
+        option.text = country.name;                            // Display only country name
+        selectElement.appendChild(option);
+    });
+}
+
+function populateCountriesTwo() {
+    var selectElement = document.querySelector('select[name="country_code_new"]');
+    
+    // Clear existing options (optional, in case of re-population)
+    selectElement.innerHTML = '';
+
+    // Add options for each country
+    countriesData.forEach(function(country) {
+        var option = document.createElement('option');
+        option.value = `${country.dial_code} ${country.name}`; // Keep both for value if needed
+        option.setAttribute('data-code', country.dial_code);   // Store country code
+        option.setAttribute('data-name', country.name);        // Store country name
+        option.text = country.name;                            // Display only country name
+        selectElement.appendChild(option);
+    });
+}
+
+
+    function populateStates() {
+        var selectElement = document.querySelector('select[name="state"]');
         
-        // Add options for each country
-        countriesData.forEach(function(country) {
+        // Add options for each state
+        statesData.forEach(function(state) {
             var option = document.createElement('option');
-            option.value = country.dial_code;
-            option.text = country.name;
-            selectElement.appendChild(option);
-        });
-    }
-    function populateCountriesTwo() {
-        var selectElement = document.querySelector('select[name="country_code_new"]');
-        
-        // Add options for each country
-        countriesData.forEach(function(country) {
-            var option = document.createElement('option');
-            option.value = country.dial_code;
-            option.text = country.name;
+            option.value = state.name;
+            option.text = state.name;
             selectElement.appendChild(option);
         });
     }
@@ -958,6 +1015,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     
     // Call the function to populate the dropdown
     populateCountries();
+    populateStates();
     populateCountriesTwo();
 </script>
 
